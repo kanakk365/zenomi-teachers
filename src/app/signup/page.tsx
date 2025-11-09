@@ -33,10 +33,10 @@ export default function SignupPage() {
     password: "",
   });
 
-  // Redirect to dashboard if already logged in
+  // Redirect to pricing if already logged in (not dashboard, as new users should see pricing)
   useEffect(() => {
     if (_hasHydrated && accessToken) {
-      router.push("/dashboard");
+      router.push("/pricing");
     }
   }, [accessToken, _hasHydrated, router]);
 
@@ -72,7 +72,7 @@ export default function SignupPage() {
           refreshToken: response.refreshToken,
           clinician: response.clinician,
         });
-        router.push("/pricing"); // Redirect to pricing page
+        router.replace("/pricing"); // Redirect to pricing page
       } else {
         // Signup
         if (formData.password !== formData.confirmPassword) {
@@ -98,7 +98,7 @@ export default function SignupPage() {
           refreshToken: response.refreshToken,
           clinician: response.clinician,
         });
-        router.push("/pricing"); // Redirect to pricing page
+        router.replace("/pricing"); // Redirect to pricing page
       }
     } catch (err) {
       const errorMessage =

@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Check,
-  User,
   Briefcase,
   Crown,
-  Building2,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import apiClient from "@/lib/api/client";
@@ -16,9 +14,6 @@ import apiClient from "@/lib/api/client";
 export default function PricingPage() {
   const router = useRouter();
   const { accessToken, _hasHydrated } = useAuthStore();
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annually">(
-    "monthly"
-  );
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -41,29 +36,19 @@ export default function PricingPage() {
 
   const plans = [
     {
-      id: "basic",
-      name: "Basic",
-      icon: User,
-      description:
-        "Access essential clinician learning materials and limited course library",
-      price: { monthly: "Free", annually: "Free" },
-      features: [
-        "10+ Essential Courses",
-        "Access to Dashboard & Purchase history",
-        "1-Month Access",
-      ],
-      buttonText: "Try now",
-      popular: false,
-    },
-    {
-      id: "professional",
-      name: "Professional",
+      id: "standard",
+      name: "Standard",
       icon: Briefcase,
       description:
-        "Unlock full access to premium clinician courses and certifications",
-      price: { monthly: "₹1,500", annually: "₹15,000" },
-      features: ["50+ Advanced Courses", "Priority Support", "3-Month Access"],
-      buttonText: "Try now",
+        "Perfect for clinicians who want to be listed as Zenomi doctors with flexible course access",
+      price: "₹9,999",
+      features: [
+        "Listed as Zenomi doctors",
+        "Set your own consultation fees",
+        "Pay-as-you-go for courses (₹499 per course)",
+        "Yearly subscription",
+      ],
+      buttonText: "Subscribe now",
       popular: false,
     },
     {
@@ -71,43 +56,22 @@ export default function PricingPage() {
       name: "Premium",
       icon: Crown,
       description:
-        "Access all clinician courses, exclusive webinars and advanced modules",
-      price: { monthly: "₹5,500", annually: "₹55,000" },
+        "Complete access to all micro lessons and full Zenomi doctor listing benefits",
+      price: "₹19,999",
       features: [
-        "Unlimited Course Access",
-        "Expert-Led Workshops",
-        "6-Month Access",
-      ],
-      buttonText: "Try now",
-      popular: true,
-    },
-    {
-      id: "institutional",
-      name: "Institutional",
-      icon: Building2,
-      description:
-        "Team-based learning for multiple clinicians under one account",
-      price: { monthly: "₹10,500", annually: "₹1,05,000" },
-      features: [
-        "Multi-Clinician Access",
-        "Customized Learning Path",
-        "1-Year Access",
+        "Listed as Zenomi doctors",
+        "Set your own consultation fees",
+        "Access to all micro lessons by default",
+        "Yearly subscription",
       ],
       buttonText: "Subscribe now",
-      popular: false,
+      popular: true,
     },
   ];
 
   const handleCheckout = async (plan: (typeof plans)[0]) => {
-    const price = plan.price[billingPeriod];
-
-    if (price === "Free") {
-      router.push("/dashboard");
-      return;
-    }
-
-    // Extract numeric amount from price string (e.g., "₹1,500" -> 1500)
-    const amount = parseInt(price.replace(/[^0-9]/g, ""));
+    // Extract numeric amount from price string (e.g., "₹9,999" -> 9999)
+    const amount = parseInt(plan.price.replace(/[^0-9]/g, ""));
 
     if (isNaN(amount)) {
       console.error("Invalid price format");
@@ -158,39 +122,12 @@ export default function PricingPage() {
             </h1>
           </div>
           <p className="text-gray-700 text-base ml-10">
-            Access specialized clinician courses and resources designed to
-            enhance your expertise.
+            Choose the perfect plan for your practice. Both plans include Zenomi doctor listing and consultation fee management.
           </p>
-        </div>
-
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-white rounded-full p-1 shadow-sm border border-gray-200">
-            <button
-              onClick={() => setBillingPeriod("monthly")}
-              className={`px-6 py-2 rounded-full font-medium transition-all text-sm ${
-                billingPeriod === "monthly"
-                  ? "bg-[#8B2D6C] text-white"
-                  : "text-[#8B2D6C] hover:bg-gray-50"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBillingPeriod("annually")}
-              className={`px-6 py-2 rounded-full font-medium transition-all text-sm ${
-                billingPeriod === "annually"
-                  ? "bg-[#8B2D6C] text-white"
-                  : "text-[#8B2D6C] hover:bg-gray-50"
-              }`}
-            >
-              Annually
-            </button>
-          </div>
         </div>
 
         <div className="flex flex-row gap-8 max-w-[1600px] mx-auto justify-center">
           {plans.map((plan) => {
-            const price = plan.price[billingPeriod];
             const Icon = plan.icon;
 
             return (
@@ -224,13 +161,11 @@ export default function PricingPage() {
 
                   <div className="flex items-end gap-0.5">
                     <span className="text-[40px] font-semibold text-black leading-[1.15em] group-hover:text-white transition-colors duration-300">
-                      {price}
+                      {plan.price}
                     </span>
-                    {price !== "Free" && (
-                      <span className="text-sm font-normal text-[#6A6A6A] leading-[1.15em] mb-1 group-hover:text-white transition-colors duration-300">
-                        /month
-                      </span>
-                    )}
+                    <span className="text-sm font-normal text-[#6A6A6A] leading-[1.15em] mb-1 group-hover:text-white transition-colors duration-300">
+                      /year
+                    </span>
                   </div>
                 </div>
 

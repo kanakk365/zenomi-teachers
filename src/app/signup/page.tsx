@@ -33,7 +33,6 @@ export default function SignupPage() {
     password: "",
   });
 
-  // Redirect to pricing if already logged in (not dashboard, as new users should see pricing)
   useEffect(() => {
     if (_hasHydrated && accessToken) {
       router.push("/pricing");

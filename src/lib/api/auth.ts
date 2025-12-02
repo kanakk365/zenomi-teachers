@@ -25,16 +25,23 @@ interface Clinician {
   website?: string;
 }
 
+interface PlanAccess {
+  isStandardPaid: boolean;
+  isPremiumPaid: boolean;
+  courses: Array<{ id: string; name: string; link: string }>;
+}
+
 interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   clinician: Clinician;
+  planAccess: PlanAccess;
 }
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 export async function signup(data: SignupData): Promise<AuthResponse> {
-  const response = await fetch(`${baseURL}/clinicians/auth/register`, {
+  const response = await fetch(`${baseURL}/teachers/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -51,7 +58,7 @@ export async function signup(data: SignupData): Promise<AuthResponse> {
 }
 
 export async function login(data: LoginData): Promise<AuthResponse> {
-  const response = await fetch(`${baseURL}/clinicians/auth/login`, {
+  const response = await fetch(`${baseURL}/teachers/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +75,7 @@ export async function login(data: LoginData): Promise<AuthResponse> {
 }
 
 export async function getProfile(accessToken: string): Promise<Clinician> {
-  const response = await fetch(`${baseURL}/clinicians/auth/profile`, {
+  const response = await fetch(`${baseURL}/teachers/auth/profile`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -103,7 +110,7 @@ interface CoursesResponse {
 }
 
 export async function getCourses(accessToken: string): Promise<CoursesResponse> {
-  const response = await fetch(`${baseURL}/clinicians/courses`, {
+  const response = await fetch(`${baseURL}/teachers/courses`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -132,7 +139,7 @@ export async function checkoutStandard(
 ): Promise<CheckoutResponse> {
   const amount = courseIds.length * 499;
   
-  const response = await fetch(`${baseURL}/payments/clinicians/checkout/standard`, {
+  const response = await fetch(`${baseURL}/payments/teachers/checkout/standard`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -159,7 +166,7 @@ export async function checkoutPremium(
 ): Promise<CheckoutResponse> {
   const amount = 499 * 6;
   
-  const response = await fetch(`${baseURL}/payments/clinicians/checkout/premium`, {
+  const response = await fetch(`${baseURL}/payments/teachers/checkout/premium`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

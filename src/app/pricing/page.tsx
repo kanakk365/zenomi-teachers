@@ -40,7 +40,7 @@ export default function PricingPage() {
       name: "Standard",
       icon: Briefcase,
       description:
-        "Perfect for clinicians who want to be listed as Zenomi doctors with flexible course access",
+        "Perfect for teachers who want to be listed as Zenomi doctors with flexible course access",
       price: "₹9,999",
       features: [
         "Listed as Zenomi doctors",
@@ -87,7 +87,7 @@ export default function PricingPage() {
         url: string;
         amount: number;
         currency: string;
-      }>("/payments/clinicians/checkout", {
+      }>("/payments/teachers/checkout", {
         amount,
       });
 

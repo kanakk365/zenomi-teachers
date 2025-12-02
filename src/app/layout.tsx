@@ -19,7 +19,7 @@ const urbanist = Urbanist({
 
 export const metadata: Metadata = {
   title: "Zenomi Health",
-  description: "Clinician Intelligence Platform",
+  description: "Teacher Intelligence Platform",
 };
 
 export default function RootLayout({

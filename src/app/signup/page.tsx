@@ -138,7 +138,7 @@ export default function SignupPage() {
                   Welcome to Zenomi
                 </h1>
                 <p className="text-2xl font-medium leading-relaxed bg-gradient-to-r from-[#F7C569] via-[#FBE2B4] to-[#F8E4FF] bg-clip-text text-transparent">
-                  Create Your Clinician Account
+                  Create Your Teacher Account
                 </p>
               </div>
 
@@ -317,14 +317,14 @@ export default function SignupPage() {
             <form onSubmit={handleSubmit} className="space-y-4 max-h-[calc(100vh-280px)] overflow-y-auto pr-2">
               <div className="space-y-2">
                 <label className="block text-base font-normal text-[#26203B]">
-                  Clinician Name
+                  Teacher Name
                 </label>
                 <input
                   type="text"
                   name="clinicianName"
                   value={formData.clinicianName}
                   onChange={handleInputChange}
-                  placeholder="Enter Clinician/Practice Name"
+                  placeholder="Enter Teacher/Practice Name"
                   className="w-full px-4 py-2 border border-[rgba(136,136,136,0.4)] rounded-lg text-sm text-[#9C9AA5] focus:outline-none focus:ring-2 focus:ring-[#704180]/20"
                   required
                 />

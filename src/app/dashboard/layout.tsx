@@ -67,7 +67,7 @@ export default function DashboardLayout({
         onLogout={handleLogout}
         brandInitial="Z"
         brandName="Zenomi Health"
-        brandTagline="Clinician Intelligence"
+        brandTagline="Teacher Intelligence"
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">

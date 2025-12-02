@@ -53,6 +53,8 @@ export default function Dashboard() {
   const [buyPlanType, setBuyPlanType] = useState<"standard" | "premium" | null>(null);
   const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
   const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
+  const [isStandardPaid, setIsStandardPaid] = useState(false);
+  const [isPremiumPaid, setIsPremiumPaid] = useState(false);
 
   // Suppress cross-origin security errors from iframe
   useEffect(() => {
@@ -135,21 +137,37 @@ export default function Dashboard() {
       try {
         const coursesData = await getCourses(accessToken);
         
-        // Map purchased courses with names and links
-        const purchased = coursesData.courses.map(course => ({
-          id: course.id,
-          title: COURSE_NAMES[course.id] || course.name || "Untitled Course",
-          link: course.link,
-        }));
+        // Store payment status
+        setIsStandardPaid(coursesData.isStandardPaid);
+        setIsPremiumPaid(coursesData.isPremiumPaid);
+        
+        const SINGLE_COURSE_URL = "https://kanakk365.github.io/zenomi-course/";
+        const SINGLE_COURSE_ID = "zenomi-course";
+        const SINGLE_COURSE_TITLE = "Zenomi Course";
+        
+        if (coursesData.isStandardPaid || coursesData.isPremiumPaid) {
+          const singleCourse: CourseCard = {
+            id: SINGLE_COURSE_ID,
+            title: SINGLE_COURSE_TITLE,
+            link: SINGLE_COURSE_URL,
+          };
+          setPurchasedCourses([singleCourse]);
+          setTrendingCourses([singleCourse]);
+        } else {
+          const purchased = coursesData.courses.map(course => ({
+            id: course.id,
+            title: COURSE_NAMES[course.id] || course.name || "Untitled Course",
+            link: course.link,
+          }));
 
-        // Map all courses (trending) with names
-        const trending = coursesData.allCourses.map(course => ({
-          id: course.id,
-          title: COURSE_NAMES[course.id] || course.name || "Untitled Course",
-        }));
+          const trending = coursesData.allCourses.map(course => ({
+            id: course.id,
+            title: COURSE_NAMES[course.id] || course.name || "Untitled Course",
+          }));
 
-        setPurchasedCourses(purchased);
-        setTrendingCourses(trending);
+          setPurchasedCourses(purchased);
+          setTrendingCourses(trending);
+        }
       } catch (error) {
         console.error("Failed to fetch courses:", error);
       } finally {
@@ -456,26 +474,23 @@ export default function Dashboard() {
               {buyPlanType === "standard" ? (
                 <>
                   <p className="text-[#53456B] mb-4">
-                    Select the courses you want to purchase (₹499 each):
+                    Select the course you want to purchase (₹499):
                   </p>
                   <div className="space-y-3">
-                    {trendingCourses.map((course) => (
-                      <label
-                        key={course.id}
-                        className="flex items-start gap-3 p-4 rounded-lg border-2 border-gray-200 hover:border-[#8B2D6C] transition-colors cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedCourseIds.includes(course.id)}
-                          onChange={() => handleToggleCourse(course.id)}
-                          className="mt-1 w-5 h-5 text-[#8B2D6C] rounded focus:ring-[#8B2D6C]"
-                        />
-                        <div className="flex-1">
-                          <p className="font-medium text-[#2C1B3A]">{course.title}</p>
-                          <p className="text-sm text-[#8F82B0] mt-1">₹499</p>
-                        </div>
-                      </label>
-                    ))}
+                    <label
+                      className="flex items-start gap-3 p-4 rounded-lg border-2 border-gray-200 hover:border-[#8B2D6C] transition-colors cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCourseIds.includes("zenomi-course")}
+                        onChange={() => handleToggleCourse("zenomi-course")}
+                        className="mt-1 w-5 h-5 text-[#8B2D6C] rounded focus:ring-[#8B2D6C]"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-[#2C1B3A]">Zenomi Course</p>
+                        <p className="text-sm text-[#8F82B0] mt-1">₹499</p>
+                      </div>
+                    </label>
                   </div>
                   <div className="mt-6 p-4 bg-[#F1E8FF] rounded-lg">
                     <div className="flex justify-between items-center">

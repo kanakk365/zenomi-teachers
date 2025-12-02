@@ -5,7 +5,6 @@ interface SignupData {
   email: string;
   password: string;
   ownerName: string;
-  licenseNumber: string;
   position: string;
   website?: string;
 }

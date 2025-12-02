@@ -25,7 +25,6 @@ export default function SignupPage() {
     password: "",
     confirmPassword: "",
     ownerName: "",
-    licenseNumber: "",
     position: "",
     website: "",
   });
@@ -89,7 +88,6 @@ export default function SignupPage() {
           email: formData.email,
           password: formData.password,
           ownerName: formData.ownerName,
-          licenseNumber: formData.licenseNumber,
           position: formData.position,
           website: formData.website || undefined,
         });
@@ -332,14 +330,14 @@ export default function SignupPage() {
 
               <div className="space-y-2">
                 <label className="block text-base font-normal text-[#26203B]">
-                  Owner Name
+                  Full Name
                 </label>
                 <input
                   type="text"
                   name="ownerName"
                   value={formData.ownerName}
                   onChange={handleInputChange}
-                  placeholder="Enter Owner Name"
+                  placeholder="Enter Full Name"
                   className="w-full px-4 py-2 border border-[rgba(136,136,136,0.4)] rounded-lg text-sm text-[#9C9AA5] focus:outline-none focus:ring-2 focus:ring-[#704180]/20"
                   required
                 />
@@ -385,21 +383,6 @@ export default function SignupPage() {
                   value={formData.address}
                   onChange={handleInputChange}
                   placeholder="Enter Full Address"
-                  className="w-full px-4 py-2 border border-[rgba(136,136,136,0.4)] rounded-lg text-sm text-[#9C9AA5] focus:outline-none focus:ring-2 focus:ring-[#704180]/20"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-base font-normal text-[#26203B]">
-                  License Number
-                </label>
-                <input
-                  type="text"
-                  name="licenseNumber"
-                  value={formData.licenseNumber}
-                  onChange={handleInputChange}
-                  placeholder="Enter License Number"
                   className="w-full px-4 py-2 border border-[rgba(136,136,136,0.4)] rounded-lg text-sm text-[#9C9AA5] focus:outline-none focus:ring-2 focus:ring-[#704180]/20"
                   required
                 />

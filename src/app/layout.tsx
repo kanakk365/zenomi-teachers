@@ -18,7 +18,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: "Zenomi Health",
+  title: "Zenomi Teachers",
   description: "Teacher Intelligence Platform",
 };
 

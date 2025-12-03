@@ -2,34 +2,21 @@
 
 import { ReactNode, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  LayoutDashboard,
-  ClipboardList,
-  BookOpen,
-  User,
-} from "lucide-react";
+import { LayoutDashboard, BookOpen, User } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
-import {
-  DashboardSidebar,
-  DashboardNavItem,
-} from "@/components/Sidebar";
+import { DashboardSidebar, DashboardNavItem } from "@/components/Sidebar";
 import { DashboardNavbar } from "@/components/Navbar";
 
 const primaryNav: DashboardNavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Courses", href: "/courses", icon: BookOpen },
-  { label: "Purchase History", href: "/purchase-history", icon: ClipboardList },
+  { label: "Courses", href: "/dashboard/courses", icon: BookOpen },
 ];
 
 const secondaryNav: DashboardNavItem[] = [
   { label: "Profile", href: "/profile", icon: User },
 ];
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const { clinician, accessToken, clearAuth, _hasHydrated } = useAuthStore();
@@ -86,4 +73,3 @@ export default function DashboardLayout({
     </div>
   );
 }
-
